@@ -1,6 +1,8 @@
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
+import java.util.EmptyStackException;
+
 public class TestClass {
 
     public Calculator engine(int wordSize) {
@@ -91,6 +93,17 @@ public class TestClass {
     }
 
     @Test
+    public void SimpleEquation() {
+        Calculator calc = engine(8);
+        calc.push("2");
+        calc.push("3");
+        calc.push("4");
+        calc.execute("+");
+        calc.execute("*");
+        assertEquals("14", calc.pop());
+    }
+
+    @Test
     public void ExecuteClear() {
         Calculator calc = engine(8);
         calc.push("2");
@@ -110,15 +123,14 @@ public class TestClass {
         assertEquals("3", calc.pop());
     }
 
-    @Test
+    @Test(expected = EmptyStackException.class)
     public void InvalidExecuteCall() {
         Calculator calc = engine(8);
         calc.push("2");
         calc.execute("+");
-        assertEquals("ERROR", calc.peek(0));
     }
 
-    @Test
+    @Test(expected = EmptyStackException.class)
     public void TooManyOperators() {
         Calculator calc = engine(8);
         calc.push("2");
@@ -127,15 +139,55 @@ public class TestClass {
         calc.execute("*");
         calc.execute("/");
         calc.execute("-");
-        assertEquals("ERROR", calc.peek(0));
     }
 
-    @Test
+    @Test(expected = ArithmeticException.class)
     public void DivideByZero() {
         Calculator calc = engine(8);
         calc.push("1");
         calc.push("0");
         calc.execute("/");
-        assertEquals("ERROR", calc.peek(0));
+    }
+
+    @Test
+    public void OverflowTest_ADD() {
+        Calculator calc = engine(8);
+        calc.push("255");
+        calc.push("1");
+        calc.execute("+");
+        assertEquals("0", calc.pop());
+        assertEquals("O", calc.getOverflow());
+
+    }
+
+    @Test
+    public void OverflowTest_MULTIPLY() {
+        Calculator calc = engine(8);
+        calc.push("16");
+        calc.push("17");
+        calc.execute("*");
+        assertEquals("16", calc.pop());
+        assertEquals("O", calc.getOverflow());
+
+    }
+
+    @Test
+    public void UnderflowTest() {
+        Calculator calc = engine(8);
+        calc.push("5");
+        calc.push("8");
+        calc.execute("-");
+        assertEquals("253", calc.pop());
+        assertEquals("U", calc.getUnderflow());
+
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void InvalidInput() {
+        Calculator calc = engine(8);
+        calc.push("Hello");
+        calc.push("World");
+        calc.execute("+");
+
     }
 }
