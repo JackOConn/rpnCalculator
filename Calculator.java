@@ -19,12 +19,15 @@ public class Calculator {
     public void push(String s) {
         int input = Integer.parseInt(s);
 
-        if (input < 0 || input >= max) {
+        if (input < 0) {
+            input = (input % max + max) % max;
             flags[0] = "O";
+        } else if (input >= max) {
+            input = input % max;
+            flags[1] = "U";
         }
 
         stack.push(s);
-
     }
 
     public String pop() {
@@ -59,7 +62,7 @@ public class Calculator {
             result = firstValue + secondValue;
             if (result >= max) {
                 flags[0] = "O";
-                result = result % (max);
+                result = result % max;
             }
             stack.push(String.valueOf(result));
             break;
@@ -77,7 +80,7 @@ public class Calculator {
             result = firstValue * secondValue;
             if (result >= max) {
                 flags[0] = "O";
-                result = result % (max);
+                result = result % max;
             }
             stack.push(String.valueOf(result));
             break;
