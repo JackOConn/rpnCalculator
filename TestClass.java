@@ -1,7 +1,5 @@
-import org.graalvm.compiler.hotspot.stubs.OutOfBoundsExceptionStub;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-
 import java.util.EmptyStackException;
 
 public class TestClass {
@@ -156,7 +154,7 @@ public class TestClass {
         calc.push("255");
         calc.push("1");
         calc.execute("+");
-        assertEquals("0", calc.pop());
+        assertEquals("1", calc.pop());
         assertEquals("O", calc.getOverflow());
 
     }
@@ -167,7 +165,7 @@ public class TestClass {
         calc.push("16");
         calc.push("17");
         calc.execute("*");
-        assertEquals("16", calc.pop());
+        assertEquals("17", calc.pop());
         assertEquals("O", calc.getOverflow());
 
     }
@@ -178,7 +176,7 @@ public class TestClass {
         calc.push("5");
         calc.push("8");
         calc.execute("-");
-        assertEquals("253", calc.pop());
+        assertEquals("252", calc.pop());
         assertEquals("U", calc.getUnderflow());
 
     }

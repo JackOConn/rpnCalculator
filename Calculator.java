@@ -2,18 +2,14 @@ import java.util.*;
 
 public class Calculator {
     private String[] flags = { "o", "u" };
-    private Stack<String> stack;
+    private Stack<String> stack = new Stack<String>();
     private int max;
 
     public Calculator(int wordSize) {
-        if (wordSize < 4) {
-            wordSize = 4;
-        } else if (wordSize > 64) {
-            wordSize = 64;
+        if (wordSize < 4 || wordSize > 64) {
+            throw new IndexOutOfBoundsException();
         }
-
-        this.stack = new Stack<String>();
-        this.max = (int) Math.pow(2.0, Double.valueOf(wordSize));
+        max = (int) Math.pow(2.0, Double.valueOf(wordSize)) - 1;
     }
 
     public void push(String s) {
