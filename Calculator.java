@@ -43,12 +43,13 @@ public class Calculator {
     }
 
     public void execute(String operation) {
-        int result;
+        int result = 0;
         int firstValue = 0;
         int secondValue = 0;
+        boolean isCleared = false;
+        List<String> ops = Arrays.asList("+", "-", "*", "/", "%", ">>", "<<", "|", "^", "&", "==", "!=", "<", ">", "<=", ">=");
 
-        if (operation.equals("+") || operation.equals("-") || operation.equals("*") || operation.equals("/")
-                || operation.equals("%")) {
+        if (ops.contains(operation)) {
             secondValue = Integer.parseInt(stack.pop());
             firstValue = Integer.parseInt(stack.pop());
         }
@@ -56,48 +57,118 @@ public class Calculator {
         switch (operation) {
         case "+":
             result = firstValue + secondValue;
-            if (result >= max) {
-                flags[0] = "O";
-                result = result % max;
-            }
-            stack.push(String.valueOf(result));
             break;
 
         case "-":
             result = firstValue - secondValue;
-            if (result < 0) {
-                flags[1] = "U";
-                result = (result % max + max) % max;
-            }
-            stack.push(String.valueOf(result));
             break;
 
         case "*":
             result = firstValue * secondValue;
-            if (result >= max) {
-                flags[0] = "O";
-                result = result % max;
-            }
-            stack.push(String.valueOf(result));
             break;
 
         case "/":
-            stack.push(String.valueOf(firstValue / secondValue));
+            result = firstValue / secondValue;
             break;
 
         case "%":
-            stack.push(String.valueOf(firstValue % secondValue));
+            result = firstValue % secondValue;
+            break;
+
+        case ">>":
+            result = firstValue >>> secondValue;
+            break;
+
+        case "<<":
+            result = firstValue << secondValue;
+            break;
+
+        case "|":
+            result = firstValue | secondValue;
+            break;
+
+        case "^":
+            result = firstValue ^ secondValue;
+            break;
+
+        case "~":
+            result = ~(Integer.parseInt(stack.pop()));
+            break;
+
+        case "&":
+            result = firstValue & secondValue;
+            break;
+
+        case "==":
+            if (firstValue == secondValue) {
+                result = 1;
+            } else {
+                result = 0;
+            }
+            break;
+
+        case "!=":
+            if (firstValue != secondValue) {
+                result = 1;
+            } else {
+                result = 0;
+            }
+            break;
+
+        case "<":
+            if (firstValue < secondValue) {
+                result = 1;
+            } else {
+                result = 0;
+            }
+            break;
+
+        case ">":
+            if (firstValue > secondValue) {
+                result = 1;
+            } else {
+                result = 0;
+            }
+            break;
+
+        case "<=":
+            if (firstValue <= secondValue) {
+                result = 1;
+            } else {
+                result = 0;
+            }
+            break;
+
+        case ">=":
+            if (firstValue >= secondValue) {
+                result = 1;
+            } else {
+                result = 0;
+            }
             break;
 
         case "clear":
         case "c":
+            isCleared = true;
             stack.clear();
             break;
 
         case "size":
         case "s":
-            stack.push(String.valueOf(stack.size()));
+            result = stack.size();
             break;
+        }
+
+        if (result < 0) {
+            flags[1] = "U";
+            result = (result % max + max) % max;
+        } else if (result >= max) {
+            flags[0] = "O";
+            result = result % max;
+        }
+
+        if (!isCleared) {
+            stack.push(String.valueOf(result));
         }
 
     }

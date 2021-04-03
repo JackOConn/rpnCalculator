@@ -190,5 +190,174 @@ public class TestClass {
 
     }
 
+    @Test
+    public void ShiftRightTest() {
+        Calculator calc = engine(8);
+        calc.push("8");
+        calc.push("1");
+        calc.execute(">>");
+        assertEquals("4", calc.pop());
+    }
+
+    @Test
+    public void ShiftRightTest_2() {
+        Calculator calc = engine(8);
+        calc.push("250");
+        calc.push("5");
+        calc.execute(">>");
+        assertEquals("7", calc.pop());
+    }
+
+    @Test
+    public void ShiftLeftTest() {
+        Calculator calc = engine(8);
+        calc.push("50");
+        calc.push("2");
+        calc.execute("<<");
+        assertEquals("200", calc.pop());
+    }
+
+    @Test
+    public void ORTest() {
+        Calculator calc = engine(8);
+        calc.push("5");
+        calc.push("7");
+        calc.execute("|");
+        assertEquals("7", calc.pop());
+    }
+
+    @Test
+    public void XORTest() {
+        Calculator calc = engine(8);
+        calc.push("5");
+        calc.push("7");
+        calc.execute("^");
+        assertEquals("2", calc.pop());
+    }
+
+    @Test
+    public void CMPTest() {
+        Calculator calc = engine(8);
+        calc.push("35");
+        calc.execute("~");
+        assertEquals("219", calc.pop());
+    }
+
+    @Test
+    public void ANDTest() {
+        Calculator calc = engine(8);
+        calc.push("5");
+        calc.push("7");
+        calc.execute("&");
+        assertEquals("5", calc.pop());
+    }
+
+    @Test
+    public void Equal_1() {
+        Calculator calc = engine(8);
+        calc.push("10");
+        calc.push("10");
+        calc.execute("==");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void Equal_0() {
+        Calculator calc = engine(8);
+        calc.push("10");
+        calc.push("6");
+        calc.execute("==");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void UnEqual_1() {
+        Calculator calc = engine(8);
+        calc.push("10");
+        calc.push("7");
+        calc.execute("!=");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void UnEqual_0() {
+        Calculator calc = engine(8);
+        calc.push("10");
+        calc.push("10");
+        calc.execute("!=");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void LessThan_1() {
+        Calculator calc = engine(8);
+        calc.push("4");
+        calc.push("7");
+        calc.execute("<");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void LessThan_0() {
+        Calculator calc = engine(8);
+        calc.push("11");
+        calc.push("10");
+        calc.execute("<");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void GreaterThan_1() {
+        Calculator calc = engine(8);
+        calc.push("10");
+        calc.push("7");
+        calc.execute(">");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void GreaterThan_0() {
+        Calculator calc = engine(8);
+        calc.push("5");
+        calc.push("10");
+        calc.execute(">");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void LessThanOrEqual_1() {
+        Calculator calc = engine(8);
+        calc.push("7");
+        calc.push("7");
+        calc.execute("<=");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void LessThanOrEqual_0() {
+        Calculator calc = engine(8);
+        calc.push("11");
+        calc.push("10");
+        calc.execute("<=");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void GreaterThanOrEqual_1() {
+        Calculator calc = engine(8);
+        calc.push("7");
+        calc.push("7");
+        calc.execute(">=");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void GreaterThanOrEqual_0() {
+        Calculator calc = engine(8);
+        calc.push("11");
+        calc.push("12");
+        calc.execute(">=");
+        assertEquals("0", calc.pop());
+    }
 
 }
