@@ -1,0 +1,10 @@
+9/10
+
+- execute() should be broken up into smaller methods. This method
+  is going to get unwieldy in the very near future. More so than it
+  is already.
+- What is 'U' intended to represent in your flags?
+- You don't need to include the `.jar` files in your repositoriy. 
+  You should however include a reference to which ones may be needed
+  (e.g. dependencies) in a README.md or if you are using a dependency
+  manager.
