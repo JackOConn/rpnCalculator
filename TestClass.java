@@ -21,7 +21,7 @@ public class TestClass {
         calc.push("2");
         calc.push("3");
         calc.push("4");
-        assertEquals("3", calc.peek(1));
+        assertEquals("4", calc.peek(0));
 
     }
 
@@ -177,7 +177,7 @@ public class TestClass {
         calc.push("8");
         calc.execute("-");
         assertEquals("252", calc.pop());
-        assertEquals("U", calc.getUnderflow());
+        assertEquals("O", calc.getOverflow());
 
     }
 
@@ -359,5 +359,97 @@ public class TestClass {
         calc.execute(">=");
         assertEquals("0", calc.pop());
     }
+
+    @Test
+    public void LogicalAND_0() {
+        Calculator calc = engine(8);
+        calc.push("100");
+        calc.push("5");
+        calc.execute("&&");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void LogicalAND_1() {
+        Calculator calc = engine(8);
+        calc.push("100");
+        calc.push("100");
+        calc.execute("&&");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void duplicateTest() {
+        Calculator calc = engine(8);
+        calc.push("5");
+        calc.execute("duplicate");
+        assertEquals("5", calc.peek(0));
+        assertEquals("5", calc.peek(1));
+    }
+
+    @Test
+    public void dTest() {
+        Calculator calc = engine(8);
+        calc.push("100");
+        calc.execute("d");
+        assertEquals("100", calc.peek(0));
+        assertEquals("100", calc.peek(1));
+    }
+
+    @Test
+    public void reverseTest() {
+        Calculator calc = engine(8);
+        calc.push("100");
+        calc.push("50");
+        calc.execute("reverse");
+        assertEquals("100", calc.peek(0));
+        assertEquals("50", calc.peek(1));
+    }
+
+    @Test
+    public void rTest() {
+        Calculator calc = engine(8);
+        calc.push("75");
+        calc.push("2");
+        calc.execute("reverse");
+        assertEquals("75", calc.peek(0));
+        assertEquals("2", calc.peek(1));
+    }
+
+    @Test
+    public void LogicalOR_0() {
+        Calculator calc = engine(8);
+        calc.push("0");
+        calc.push("0");
+        calc.execute("||");
+        assertEquals("0", calc.pop());
+    }
+
+    @Test
+    public void LogicalOR_1() {
+        Calculator calc = engine(8);
+        calc.push("100");
+        calc.push("0");
+        calc.execute("||");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void LogicalNOT_1() {
+        Calculator calc = engine(8);
+        calc.push("0");
+        calc.execute("!");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void LogicalNOT_0() {
+        Calculator calc = engine(8);
+        calc.push("100");
+        calc.execute("!");
+        assertEquals("0", calc.pop());
+    }
+
+
 
 }
