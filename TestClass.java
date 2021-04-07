@@ -155,7 +155,7 @@ public class TestClass {
         calc.push("1");
         calc.execute("+");
         assertEquals("1", calc.pop());
-        assertEquals("O", calc.getOverflow());
+        assertEquals("O", calc.flags());
 
     }
 
@@ -166,7 +166,7 @@ public class TestClass {
         calc.push("17");
         calc.execute("*");
         assertEquals("17", calc.pop());
-        assertEquals("O", calc.getOverflow());
+        assertEquals("O", calc.flags());
 
     }
 
@@ -177,7 +177,7 @@ public class TestClass {
         calc.push("8");
         calc.execute("-");
         assertEquals("252", calc.pop());
-        assertEquals("O", calc.getOverflow());
+        assertEquals("O", calc.flags());
 
     }
 
@@ -417,7 +417,7 @@ public class TestClass {
     }
 
     @Test
-    public void LogicalOR_0() {
+    public void LogicalOR_Test1() {
         Calculator calc = engine(8);
         calc.push("0");
         calc.push("0");
@@ -426,7 +426,7 @@ public class TestClass {
     }
 
     @Test
-    public void LogicalOR_1() {
+    public void LogicalOR_Test2() {
         Calculator calc = engine(8);
         calc.push("100");
         calc.push("0");
@@ -435,7 +435,16 @@ public class TestClass {
     }
 
     @Test
-    public void LogicalNOT_1() {
+    public void LogicalOR_Test3() {
+        Calculator calc = engine(8);
+        calc.push("0");
+        calc.push("100");
+        calc.execute("||");
+        assertEquals("1", calc.pop());
+    }
+
+    @Test
+    public void LogicalNOT_Test1() {
         Calculator calc = engine(8);
         calc.push("0");
         calc.execute("!");
@@ -443,7 +452,7 @@ public class TestClass {
     }
 
     @Test
-    public void LogicalNOT_0() {
+    public void LogicalNOT_Test2() {
         Calculator calc = engine(8);
         calc.push("100");
         calc.execute("!");

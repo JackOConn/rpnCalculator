@@ -4,7 +4,6 @@ public class Calculator {
     private String[] flags = { "o" };
     private Stack<String> stack = new Stack<String>();
     private int max;
-    private boolean isPushed;
 
     public Calculator(int wordSize) {
         if (wordSize < 4 || wordSize > 64) {
@@ -24,7 +23,7 @@ public class Calculator {
             flags[0] = "O";
         }
 
-        stack.push(s);
+        stack.push(String.valueOf(input));
     }
 
     public String pop() {
@@ -32,9 +31,6 @@ public class Calculator {
     }
 
     public String peek(int index) {
-        if (index == 0) {
-            return stack.get(stack.size() - 1);
-        }
         return stack.get(stack.size() - 1 - index);
     }
 
@@ -47,162 +43,115 @@ public class Calculator {
     }
 
     public void execute(String op) {
-        int result = 0;
         int firstValue = 0;
         int secondValue = 0;
         List<String> opsWithTwoValues = Arrays.asList("+", "-", "*", "/", "%", ">>", "<<", "|", "^", "&", "==", "!=",
                 "<", ">", "<=", ">=", "&&", "||", "reverse", "r");
 
         if (opsWithTwoValues.contains(op)) {
-            secondValue = Integer.parseInt(stack.pop());
-            firstValue = Integer.parseInt(stack.pop());
-        } else if (op == "d" || op == "duplicate" || op == "!" || op == "~")
-            firstValue = Integer.parseInt(stack.pop());
+            secondValue = Integer.parseInt(pop());
+            firstValue = Integer.parseInt(pop());
+        } else if (op == "d" || op == "duplicate" || op == "!" || op == "~") {
+            firstValue = Integer.parseInt(pop());
+        }
 
-        if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%")
-            result = BasicArithmeticCalculation(firstValue, secondValue, op);
-        else if (op == ">>" || op == "<<" || op == "|" || op == "^" || op == "&" || op == "~")
-            result = BitwiseCalculation(firstValue, secondValue, op);
-        else if (op == "==" || op == "!=" || op == "<" || op == ">" || op == "<=" || op == ">=")
-            result = RelationalCalculation(firstValue, secondValue, op);
-        else if (op == "&&" || op == "||" || op == "!")
-            result = LogicalCalculation(firstValue, secondValue, op);
+        if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
+            BasicArithmeticCalculation(firstValue, secondValue, op);
+        }
+        else if (op == ">>" || op == "<<" || op == "|" || op == "^" || op == "&" || op == "~") {
+            BitwiseCalculation(firstValue, secondValue, op);
+        }
+        else if (op == "==" || op == "!=" || op == "<" || op == ">" || op == "<=" || op == ">=") {
+            RelationalCalculation(firstValue, secondValue, op);
+        }
+        else if (op == "&&" || op == "||" || op == "!") {
+            LogicalCalculation(firstValue, secondValue, op);
+        }
         else if (op == "clear" || op == "c" || op == "size" || op == "s" || op == "duplicate" || op == "d"
-                || op == "reverse" || op == "r")
-            result = StackOperations(firstValue, secondValue, op);
-
-        if (result < 0) {
-            flags[0] = "O";
-            result = (result % max + max) % max;
-        } else if (result >= max) {
-            flags[0] = "O";
-            result = result % max;
+                || op == "reverse" || op == "r") {
+            StackOperations(firstValue, secondValue, op);
         }
-
-        if (!isPushed)
-            stack.push(String.valueOf(result));
     }
 
-    public int BasicArithmeticCalculation(int firstValue, int secondValue, String op) {
+    public void BasicArithmeticCalculation(int firstValue, int secondValue, String op) {
         switch (op) {
-        case "+":
-            return (firstValue + secondValue);
+        case "+": push(String.valueOf(firstValue + secondValue));
+            break;
+        case "-": push(String.valueOf(firstValue - secondValue));
+            break;
+        case "*": push(String.valueOf(firstValue * secondValue));
+            break;
+        case "/": push(String.valueOf(firstValue / secondValue));
+            break;
+        case "%": push(String.valueOf(firstValue % secondValue));
+            break;
 
-        case "-":
-            return (firstValue - secondValue);
-
-        case "*":
-            return (firstValue * secondValue);
-
-        case "/":
-            return (firstValue / secondValue);
-
-        case "%":
-            return (firstValue % secondValue);
-
-        default:
-            return 0;
         }
     }
 
-    public int BitwiseCalculation(int firstValue, int secondValue, String op) {
+    public void BitwiseCalculation(int firstValue, int secondValue, String op) {
         switch (op) {
-        case ">>":
-            return firstValue >>> secondValue;
-
-        case "<<":
-            return firstValue << secondValue;
-
-        case "|":
-            return firstValue | secondValue;
-
-        case "^":
-            return firstValue ^ secondValue;
-
-        case "&":
-            return firstValue & secondValue;
-
-        case "~":
-            return ~firstValue;
-
-        default:
-            return 0;
+        case ">>": push(String.valueOf(firstValue >>> secondValue));
+            break;
+        case "<<": push(String.valueOf(firstValue << secondValue));
+            break;
+        case "|": push(String.valueOf(firstValue | secondValue));
+            break;
+        case "^": push(String.valueOf(firstValue ^ secondValue));
+            break;
+        case "&": push(String.valueOf(firstValue & secondValue));
+            break;
+        case "~": push(String.valueOf(~firstValue));
+            break;
         }
     }
 
-    public int RelationalCalculation(int firstValue, int secondValue, String op) {
+    public void RelationalCalculation(int firstValue, int secondValue, String op) {
         switch (op) {
-        case "==":
-            return (firstValue == secondValue) ? 1 : 0;
-
-        case "!=":
-            return (firstValue != secondValue) ? 1 : 0;
-
-        case "<":
-            return (firstValue < secondValue) ? 1 : 0;
-
-        case ">":
-            return (firstValue > secondValue) ? 1 : 0;
-
-        case "<=":
-            return (firstValue <= secondValue) ? 1 : 0;
-
-        case ">=":
-            return (firstValue >= secondValue) ? 1 : 0;
-
-        default:
-            return 0;
+        case "==": push((firstValue == secondValue) ? "1" : "0");
+            break;
+        case "!=": push((firstValue != secondValue) ? "1" : "0");
+            break;
+        case "<": push((firstValue < secondValue) ? "1" : "0");
+            break;
+        case ">": push((firstValue > secondValue) ? "1" : "0");
+            break;
+        case "<=": push((firstValue <= secondValue) ? "1" : "0");
+            break;
+        case ">=": push((firstValue >= secondValue) ? "1" : "0");
+            break;
         }
     }
 
-    public int LogicalCalculation(int firstValue, int secondValue, String op) {
+    public void LogicalCalculation(int firstValue, int secondValue, String op) {
         switch (op) {
-        case "&&":
-            return (firstValue == secondValue) ? 1 : 0;
-
-        case "||":
-            return ((firstValue + secondValue) == 0) ? 0 : 1;
-
-        case "!":
-            return (firstValue == 0) ? 1 : 0;
-
-        default:
-            return 0;
+        case "&&": push((firstValue == secondValue) ? "1" : "0");
+            break;
+        case "||": push(((firstValue + secondValue) == 0) ? "0" : "1");
+            break;
+        case "!": push((firstValue == 0) ? "1" : "0");
+            break;
         }
     }
 
-    public int StackOperations(int firstValue, int secondValue, String op) {
+    public void StackOperations(int firstValue, int secondValue, String op) {
         switch (op) {
-        case "clear":
-        case "c":
-            isPushed = true;
-            stack.clear();
-            return 0;
-
-        case "size":
-        case "s":
-            return stack.size();
-
-        case "duplicate":
-        case "d":
-            isPushed = true;
-            stack.push(String.valueOf(firstValue));
-            stack.push(String.valueOf(firstValue));
-            return 0;
-
-        case "reverse":
-        case "r":
-            isPushed = true;
-            stack.push(String.valueOf(secondValue));
-            stack.push(String.valueOf(firstValue));
-            return 0;
-
-        default:
-            return 0;
+        case "clear": case "c": clear();
+            break;
+        case "size": case "s": push(String.valueOf(size()));
+            break;
+        case "duplicate": case "d":
+            push(String.valueOf(firstValue));
+            push(String.valueOf(firstValue));
+            break;
+        case "reverse": case "r":
+            push(String.valueOf(secondValue));
+            push(String.valueOf(firstValue));
+            break;
         }
     }
 
-    public String getOverflow() {
+    public String flags() {
         return flags[0];
     }
 
