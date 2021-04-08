@@ -18,11 +18,11 @@ public class Calculator {
         if (input < 0) {
             input = (input % max + max) % max;
             flags[0] = "O";
-        } else if (input >= max) {
+        } 
+        else if (input >= max) {
             input = input % max;
             flags[0] = "O";
         }
-
         stack.push(String.valueOf(input));
     }
 
@@ -51,29 +51,30 @@ public class Calculator {
         if (opsWithTwoValues.contains(op)) {
             secondValue = Integer.parseInt(pop());
             firstValue = Integer.parseInt(pop());
-        } else if (op == "d" || op == "duplicate" || op == "!" || op == "~") {
+        } 
+        else if (op == "d" || op == "duplicate" || op == "!" || op == "~") {
             firstValue = Integer.parseInt(pop());
         }
 
         if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
-            BasicArithmeticCalculation(firstValue, secondValue, op);
+            PushArithmeticResult(firstValue, secondValue, op);
         }
         else if (op == ">>" || op == "<<" || op == "|" || op == "^" || op == "&" || op == "~") {
-            BitwiseCalculation(firstValue, secondValue, op);
+            PushBitwiseResult(firstValue, secondValue, op);
         }
         else if (op == "==" || op == "!=" || op == "<" || op == ">" || op == "<=" || op == ">=") {
-            RelationalCalculation(firstValue, secondValue, op);
+            PushRelationalResult(firstValue, secondValue, op);
         }
         else if (op == "&&" || op == "||" || op == "!") {
-            LogicalCalculation(firstValue, secondValue, op);
+            PushLogicalResult(firstValue, secondValue, op);
         }
         else if (op == "clear" || op == "c" || op == "size" || op == "s" || op == "duplicate" || op == "d"
                 || op == "reverse" || op == "r") {
-            StackOperations(firstValue, secondValue, op);
+            PerformStackCommands(firstValue, secondValue, op);
         }
     }
 
-    public void BasicArithmeticCalculation(int firstValue, int secondValue, String op) {
+    public void PushArithmeticResult(int firstValue, int secondValue, String op) {
         switch (op) {
         case "+": push(String.valueOf(firstValue + secondValue));
             break;
@@ -89,7 +90,7 @@ public class Calculator {
         }
     }
 
-    public void BitwiseCalculation(int firstValue, int secondValue, String op) {
+    public void PushBitwiseResult(int firstValue, int secondValue, String op) {
         switch (op) {
         case ">>": push(String.valueOf(firstValue >>> secondValue));
             break;
@@ -106,7 +107,7 @@ public class Calculator {
         }
     }
 
-    public void RelationalCalculation(int firstValue, int secondValue, String op) {
+    public void PushRelationalResult(int firstValue, int secondValue, String op) {
         switch (op) {
         case "==": push((firstValue == secondValue) ? "1" : "0");
             break;
@@ -123,7 +124,7 @@ public class Calculator {
         }
     }
 
-    public void LogicalCalculation(int firstValue, int secondValue, String op) {
+    public void PushLogicalResult(int firstValue, int secondValue, String op) {
         switch (op) {
         case "&&": push((firstValue == secondValue) ? "1" : "0");
             break;
@@ -134,7 +135,7 @@ public class Calculator {
         }
     }
 
-    public void StackOperations(int firstValue, int secondValue, String op) {
+    public void PerformStackCommands(int firstValue, int secondValue, String op) {
         switch (op) {
         case "clear": case "c": clear();
             break;
