@@ -177,6 +177,8 @@ public class Calculator {
             min = (int) (Math.pow(2.0, Double.valueOf(bits)) / 2) - 1;
         } else {
             isSigned = false;
+            max = (int) Math.pow(2.0, Double.valueOf(bits)) - 1;
+            min = 0;
         }
     }
 
