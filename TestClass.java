@@ -459,6 +459,16 @@ public class TestClass {
         assertEquals("0", calc.pop());
     }
 
+    @Test
+    public void SignedTest() {
+        Calculator calc = engine(8);
+        calc.changeMode("signed");
+        calc.push("-120");
+        calc.push("20");
+        calc.execute("+");
+        assertEquals("-100", calc.pop());
+    }
+
 
 
 }

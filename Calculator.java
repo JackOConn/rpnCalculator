@@ -4,24 +4,38 @@ public class Calculator {
     private String[] flags = { "o" };
     private Stack<String> stack = new Stack<String>();
     private int max;
+    private int min;
+    private int bits;
+    private boolean isSigned = false;
 
-    public Calculator(int wordSize) {
-        if (wordSize < 4 || wordSize > 64) {
+    public Calculator(int bits) {
+        if (bits < 4 || bits > 64) {
             throw new IndexOutOfBoundsException();
         }
-        max = (int) Math.pow(2.0, Double.valueOf(wordSize)) - 1;
+        this.bits = bits;
+        max = (int) Math.pow(2.0, Double.valueOf(bits)) - 1;
     }
 
     public void push(String s) {
         int input = Integer.parseInt(s);
-
-        if (input < 0) {
-            input = (input % max + max) % max;
-            flags[0] = "O";
-        } 
-        else if (input >= max) {
-            input = input % max;
-            flags[0] = "O";
+        if(isSigned) {
+            if (input < 0) {
+                input = (input % max + max) % max;
+                flags[0] = "O";
+            } 
+            else if (input >= max) {
+                input = input % max;
+                flags[0] = "O";
+            }
+        } else {
+            if (input < min) {
+                input = (input % max + max) % max;
+                flags[0] = "O";
+            } 
+            else if (input >= max) {
+                input = input % max;
+                flags[0] = "O";
+            }
         }
         stack.push(String.valueOf(input));
     }
@@ -154,6 +168,16 @@ public class Calculator {
 
     public String flags() {
         return flags[0];
+    }
+
+    public void changeMode(String mode) {
+        if (mode == "signed") {
+            isSigned = true;
+            max = (int) (Math.pow(2.0, Double.valueOf(bits)) / 2) * -1;
+            min = (int) (Math.pow(2.0, Double.valueOf(bits)) / 2) - 1;
+        } else {
+            isSigned = false;
+        }
     }
 
 }
