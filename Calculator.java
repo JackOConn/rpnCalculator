@@ -3,6 +3,7 @@ import java.util.*;
 public class Calculator {
     private String[] flags = { "o" };
     private Stack<String> stack = new Stack<String>();
+    private HashMap<String, Integer> variables = new HashMap<String, Integer>();
     private int max;
     private int min;
     private int bits;
@@ -17,8 +18,13 @@ public class Calculator {
     }
 
     public void push(String s) {
-        int input = Integer.parseInt(s);
-        if(isSigned) {
+        int input;
+        if (variables.containsKey(s)) {
+            input = variables.get(s);
+        } else {
+            input = Integer.parseInt(s);
+        }
+        if (isSigned) {
             if (input < 0) {
                 input = (input % max + max) % max;
                 flags[0] = "O";
@@ -62,10 +68,15 @@ public class Calculator {
         List<String> opsWithTwoValues = Arrays.asList("+", "-", "*", "/", "%", ">>", "<<", "|", "^", "&", "==", "!=",
                 "<", ">", "<=", ">=", "&&", "||", "reverse", "r");
 
+        if(op.charAt(0) == '=') {
+            op = op.substring(1);
+            variables.put(op, Integer.parseInt(pop()));
+        }
+
         if (opsWithTwoValues.contains(op)) {
             secondValue = Integer.parseInt(pop());
             firstValue = Integer.parseInt(pop());
-        } 
+        }
         else if (op == "d" || op == "duplicate" || op == "!" || op == "~") {
             firstValue = Integer.parseInt(pop());
         }

@@ -469,6 +469,27 @@ public class TestClass {
         assertEquals("-100", calc.pop());
     }
 
+    @Test 
+    public void VariableTest() {
+        Calculator calc = engine(8);
+        calc.push("10");
+        calc.execute("=myvar");
+        calc.push("10");
+        calc.push("myvar");
+        calc.execute("+");
+        assertEquals("20", calc.pop());
+    }
+
+    @Test 
+    public void VariableTest2() {
+        Calculator calc = engine(8);
+        calc.push("27");
+        calc.execute("=x");
+        calc.push("15");
+        calc.push("x");
+        calc.execute("+");
+        assertEquals("42", calc.pop());
+    }
 
 
 }
