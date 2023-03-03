@@ -1,6 +1,0 @@
-9/10
-
-- should not be all in one very large class
-
-- seems like push() has a bit of duplicated code
-
