@@ -1,7 +1,6 @@
-# rpn-calculator-jack-o-connor
-rpn-calculator-jack-o-connor created by GitHub Classroom
+# Reverse Polish Notation Calculator
 
-Reverse Polish Notation Calculator
+- Project done using TDD with JUnit
 
 All of the .jar files are necessary to have in your directory if you want to use the TestClass with junit.
 
